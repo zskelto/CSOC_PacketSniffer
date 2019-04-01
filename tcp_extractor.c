@@ -52,11 +52,13 @@ void my_packet_handler(
 
     /* Find start of IP header */
     ip_header = packet + ethernet_header_length;
+    printf("ethernet header length: %d\n",ethernet_header_length);
     ipHeader = (struct ip*) (ip_header);
     inet_ntop(AF_INET,&(ipHeader->ip_src),sourceIP,INET_ADDRSTRLEN);
     /* The second-half of the first byte in ip_header
        contains the IP header length (IHL). */
     ip_header_length = ((*ip_header) & 0x0F);
+    printf("IP header length: %d\n", ip_header_length*4);
     /* The IHL is number of 32-bit segments. Multiply
        by four to get a byte count for pointer arithmetic */
     ip_header_length = ip_header_length * 4;
