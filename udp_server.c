@@ -1,6 +1,7 @@
 #include <sys/socket.h>
 #include <netinet/in.h>
 #include <stdio.h>
+#include <string.h>
 
 int main(void){
 
@@ -17,9 +18,17 @@ int main(void){
 		return 0;
 	}
 	
+	memset((char *)&addr, 0, sizeof(addr));
 	addr.sin_family = AF_INET;
-	addr.sin_port = 0;
+	addr.sin_port = htons(8080);
+	addr.sin_addr.s_addr = htonl(INADDR_ANY);
 
+	if(bind(s, (struct sockaddr *)&addr, sizeof(addr))){
+		perror("Failed to bind.");
+		return 0;
+	}
+
+	
 
 	return 0;
 }
