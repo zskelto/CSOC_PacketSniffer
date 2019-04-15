@@ -22,12 +22,13 @@
 void my_packet_handler(u_char *args, const struct pcap_pkthdr *header, const u_char *packet){
 
 	const struct ip *IPHeader;
-	char sourceIP[INET_ADDSTRLEN];
+	char sourceIP[INET_ADDRSTRLEN];
 	struct ether_header *eth_header;
 	const u_char *ip_header, *tcp_header, *payload;
 
 	int ethernet_header_length = 14;
 	int tcp_header_length;
+	int ip_header_length;
 	int payload_length;
 	
 	u_char protocol;
@@ -77,7 +78,8 @@ int main(int argc, char **argv){
 	int snapshot_length = 1024;
 	//How many packets to capture.
 	int total_packet_count = 200;
-	
+	u_char *my_arguments = NULL;
+
 	handle = pcap_open_live(device, snapshot_length, 0, 10000, error_buffer);
 	pcap_loop(handle, total_packet_count, my_packet_handler, my_arguments);
 	return 0;
